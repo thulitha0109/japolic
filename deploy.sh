@@ -5,18 +5,18 @@ IMAGE="${IMAGE:-japolic-ui:latest}"
 CONTAINER="${CONTAINER:-japolic-ui}"
 PORT="${PORT:-80}"
 
-cd "$(dirname "$0")"
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+cd "$SCRIPT_DIR"
 
-echo "Building ${IMAGE}..."
-docker build --pull -t "$IMAGE" .
+if ! docker compose version >/dev/null 2>&1; then
+  echo "Docker Compose v2 is required (docker compose)." >&2
+  exit 1
+fi
 
-echo "Replacing container ${CONTAINER}..."
-docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
-docker run -d \
-  --name "$CONTAINER" \
-  --restart unless-stopped \
-  -p "${PORT}:80" \
-  "$IMAGE"
+export IMAGE CONTAINER PORT
+
+echo "Building and starting Japolic UI with Docker Compose..."
+docker compose -f compose.yml up -d --build --remove-orphans
 
 echo "Japolic UI is serving on port ${PORT}."
 echo "Open http://<server-ip>:${PORT}"

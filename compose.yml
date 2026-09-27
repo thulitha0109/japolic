@@ -1,0 +1,10 @@
+services:
+  japolic-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${IMAGE:-japolic-ui:latest}
+    container_name: ${CONTAINER:-japolic-ui}
+    restart: unless-stopped
+    ports:
+      - "${PORT:-80}:80"
