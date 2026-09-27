@@ -1,0 +1,10 @@
+{
+  "description": "Streamline data management with an efficient UI for developers, optimizing file system and object storage for massive data pipelines at low costs.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
